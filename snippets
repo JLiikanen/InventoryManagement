@@ -1,0 +1,100 @@
+ SUMMARY PLOT
+ f.fit()
+    fig = plt.figure(figsize=(8, 6))
+    table = f.summary()
+    ax = fig.get_axes()[0]
+    ax.set_title('Plotted Distributions')
+    ax.set_xlabel('Demand Units')
+    ax.set_ylabel('Probability')
+
+    st.pyplot(fig)
+
+
+
+    FREQ PLOT
+        fig, ax = plt.subplots()
+        ax.set_title(f"Real Demand from {genMethod} distribution")
+        ax.set_ylabel("Frequency")
+        ax.set_xlabel("Demand Units")
+
+        ax.hist(data, edgecolor="black")
+
+        st.pyplot(fig, clear_figure=True)
+
+
+    -------- MATPLOTLIB VERSION HIST + PDF  --------
+
+    fig, ax = plt.subplots()
+    ax.set_title(f"Real Demand and best-fitting PDF")
+    ax.set_ylabel("Frequency")
+    ax.set_xlabel("Demand Units")
+
+    ax.hist(data, edgecolor="black", density=True)
+
+    f.plot_pdf(names=dist, lw=1)
+    print(f.x)
+
+    -------- PLOTLY HIST + PDF --------
+
+    # create pdf line data
+    pdf_data = list(itertools.accumulate(f.fitted_pdf[dist]))
+    print(f.fitted_pdf[dist])
+    print(pdf_data)
+
+    fig = go.Figure()
+
+    # Add the histogram trace
+    fig.add_trace(
+        go.Histogram(
+            x=data['demand'],
+            nbinsx=20,
+            opacity=0.5,
+            histnorm='probability density',
+            name='Observed Demand',
+            hoverinfo='skip',
+            marker=dict(color="#1f77b4")
+        )
+    )
+
+    # Add the PDF line trace with hover information
+    fig.add_trace(
+        go.Scatter(
+            x=f.x,
+            y=f.fitted_pdf[dist],
+            mode='lines',
+            name=dist.capitalize(),
+            customdata=pdf_data,
+            hovertemplate='<b>X: %{x:.2f}<br>Cumulative Probability: %{customdata}</b>',
+            marker=dict(color="#FFA500")
+        )
+    )
+
+    # Set layout title and axis labels
+    fig.update_layout(
+        title='Demand And The Best-fitting Distribution',
+        xaxis_title='Demand Units',
+        yaxis_title='Probability Density'
+    )
+
+    # show the figure
+    st.plotly_chart(fig)
+
+    # ------- CDF PLOT ---------
+    fig, ax = plt.subplots()
+    ax.set_title(f"Real Demand and best-fitting CDF")
+    ax.set_ylabel("Probability")
+    ax.set_xlabel("Demand Units")
+
+    ax.hist(data, edgecolor="black", density=True)
+    ax2 = ax.twinx()
+
+    cdf_y2 = [distributionFitting.distcdfvalue(x, params, dist.capitalize()) for x in f.x]
+
+    ax2.plot(f.x, cdf_y2, color="sandybrown", label="CDF")
+    ax2.set_ylabel("Cumulative Probability")
+    ax2.grid(True)
+    ax2.legend()
+
+    interactive_plot = mpld3.display(fig)
+
+    st.pyplot(interactive_plot.html, clear_figure=True)
