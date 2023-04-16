@@ -31,7 +31,7 @@ if 'dataOK' not in st.session_state:
 
 data = None
 
-st.write("<h1 style='text-align: center;'> Capacity Management With A Predictative Model</h1>",
+st.write("<h1 style='text-align: center;'> Capacity Management With A Predictive  Model</h1>",
          unsafe_allow_html=True)
 st.write('<p style="color:#7a7a7a;font-size:18px;text-align:center; margin-bottom: 4%;">10.4.2023 - Jacques '
          'Liikanen</p>',
@@ -43,7 +43,7 @@ def style_text(text):
 
 
 st.write(style_text("This app takes a time-series dataset of your demand and fits a probability distribution to model "
-                    "your demand. Ideal for supply chain analytics &#x1F389;&#x1F389;"), unsafe_allow_html=True)
+                    "your market demand. Ideal for supply chain analytics &#x1F389;&#x1F389;"), unsafe_allow_html=True)
 
 st.write('<span style="font-size:18px">**With the help of this app, you can:**</span>', unsafe_allow_html=True)
 
@@ -56,13 +56,15 @@ st.write("- Make better inventory management decisions \n"
          "- Improves performance analysis",
          unsafe_allow_html=True)
 
-st.write('<span style="margin-top:5%">**```Got your own dataset?```** Input the data in a two column format csv file, '
-         '(first column (Eg. time, '
-         'index..), '
+st.write('<span style="margin-top:5%">**```Got your own dataset?```** Input the data in a two-column format CSV file, '
+         '(first column (Eg. time..), '
          'demand column).', unsafe_allow_html=True)
 st.table(pd.DataFrame({"first colum": ["date1", "date2", "date3"], 'demand': [130, 140, 90]}), )
 
-st.write("**```Want to tets the app?```** Use our generator distributions to generate test data!")
+st.write("**```Want to test the app?```** Use our generator distributions to generate test data!")
+
+st.write("The app uses the [Fitter Module](https://fitter.readthedocs.io/en/latest/references.html) to find the best-"
+         "fitting distribution. The app tries to fit 14 different distributions to the data and picks the best one.")
 
 # Large datasets are recommended to be splitted down
 

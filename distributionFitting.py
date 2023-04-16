@@ -36,7 +36,7 @@ def randomDistributionData(distname):
 
 dist_ppf_dict = {
     'Gamma': gamma.cdf,
-    'Normal': norm.cdf,
+    'Norm': norm.cdf,
     'T': t.cdf,
     'Chisq': chi2.cdf,
     'Betaprime': betaprime.cdf,
